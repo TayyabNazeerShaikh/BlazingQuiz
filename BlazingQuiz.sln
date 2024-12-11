@@ -3,15 +3,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.11.35327.3
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazingQuiz.Web", "BlazingQuiz.Web\BlazingQuiz.Web.csproj", "{DAB86F6F-26E3-4292-B8F1-FE6734E28ADF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazingQuiz.Web", "BlazingQuiz.Web\BlazingQuiz.Web.csproj", "{DAB86F6F-26E3-4292-B8F1-FE6734E28ADF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazingQuiz.Api", "BlazingQuiz.Api\BlazingQuiz.Api.csproj", "{EE6AE1CB-6049-4FD1-AEBE-F805FDBF2472}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazingQuiz.Api", "BlazingQuiz.Api\BlazingQuiz.Api.csproj", "{EE6AE1CB-6049-4FD1-AEBE-F805FDBF2472}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazingQuiz.Shared", "BlazingQuiz.Shared\BlazingQuiz.Shared.csproj", "{8FA4055E-0319-4353-9998-43EF56F3E4EB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazingQuiz.Shared", "BlazingQuiz.Shared\BlazingQuiz.Shared.csproj", "{8FA4055E-0319-4353-9998-43EF56F3E4EB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazingQuiz.Shared.Components", "BlazingQuiz.Shared.Components\BlazingQuiz.Shared.Components.csproj", "{4676D844-BC62-437A-9599-39ACE81884A3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazingQuiz.Shared.Components", "BlazingQuiz.Shared.Components\BlazingQuiz.Shared.Components.csproj", "{4676D844-BC62-437A-9599-39ACE81884A3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazingQuiz.Mobile", "BlazingQuiz.Mobile\BlazingQuiz.Mobile.csproj", "{B7AA9F75-C92C-4229-91A1-B12421A3B800}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazingQuiz.Mobile", "BlazingQuiz.Mobile\BlazingQuiz.Mobile.csproj", "{B7AA9F75-C92C-4229-91A1-B12421A3B800}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
