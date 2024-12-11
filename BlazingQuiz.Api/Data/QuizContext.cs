@@ -37,7 +37,7 @@ public class QuizContext : DbContext
             Role = nameof(UserRole.Admin),
             IsApproved = true
         };
-        adminUser.PasswordHash = _passwordHasher.HashPassword(adminUser, "123456");
+        adminUser.PasswordHash = _passwordHasher.HashPassword(adminUser, "12356");
 
         modelBuilder.Entity<User>()
             .HasData(adminUser);

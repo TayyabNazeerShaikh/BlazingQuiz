@@ -45,6 +45,20 @@ builder.Services.AddAuthentication(options =>
 
 builder.Services.AddTransient<AuthService>();
 
+builder.Services.AddCors(options => 
+{
+    options.AddDefaultPolicy(p => 
+    {
+        var allowedOriginStr = builder.Configuration.GetValue<string>("AllowedOrigins");
+
+        var allowedOrigins = allowedOriginStr.Split(',',StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries); 
+
+         p.WithOrigins(allowedOrigins)
+          .AllowAnyHeader()
+          .AllowAnyMethod();
+    });
+});
+
 var app = builder.Build();
 
 #if DEBUG
@@ -62,6 +76,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseCors();
 
 app.UseAuthentication();
 

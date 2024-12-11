@@ -1,5 +1,10 @@
 ﻿@page "/auth/login"
+
 @layout EmptyLayout
+
+@inject NavigationManager NavigationManager
+
+@inject IAuthApi AuthApi
 
 <div class="container d-flex justify-content-center align-items-center min-vh-100">
     <div class="col-md-4">
@@ -15,6 +20,14 @@
                 <input type="password" @bind-value="_model.Password" class="form-control" id="password" placeholder="Password" required>
                 <ValidationMessage For="() => _model.Password" />
             </div>
+
+            @if (_error != null)
+            {
+               <div class="mb-4 bg-danger text-white p-2">
+                   <p>@_error</p>
+               </div>
+            }
+
             <div class="d-grid">
                 @if (!_isbusy)
                 {
@@ -32,12 +45,31 @@
 @code {
     private LoginDto _model = new();
     private bool _isbusy;
+    private string? _error;
     private async Task LoginAsync()
     {
+        _error = null;
         _isbusy = true;
 
-        await Task.Delay(2000);
+        try
+        {
+            var authResponse = await AuthApi.LoginAsync(_model);
 
-        _isbusy = false;
+            if (authResponse.HasError)
+            {
+                _error = authResponse.ErrorMessage;
+                return;
+            }
+            NavigationManager.NavigateTo("/");
+
+        }
+        catch(Exception e)
+        {
+            _error = e.Message;
+        }
+        finally
+        {
+          _isbusy = false;
+        }
     }
 }
