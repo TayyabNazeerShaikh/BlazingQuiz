@@ -2,8 +2,11 @@ using BlazingQuiz.Api.Data;
 using BlazingQuiz.Api.Data.Entities;
 using BlazingQuiz.Api.Endpoints;
 using BlazingQuiz.Api.Services;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Microsoft.IdentityModel.Tokens;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -19,6 +22,26 @@ builder.Services.AddDbContext<QuizContext>(options =>
 {
     options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
+
+builder.Services.AddAuthentication(options =>
+{
+    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+})
+    .AddJwtBearer(options =>
+{
+            var secretKey = builder.Configuration.GetValue<string>("Jwt:Secret");
+            var symmetrickey = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(secretKey));
+            options.TokenValidationParameters = new TokenValidationParameters 
+            {
+                IssuerSigningKey = symmetrickey,
+                ValidIssuer = builder.Configuration.GetValue<string>("Jwt:Issuer"),
+                ValidAudience = builder.Configuration.GetValue<string>("Jwt:Audience"),
+                ValidateIssuer = true,
+                ValidateAudience = true,
+                ValidateIssuerSigningKey = true
+            };
+        });
 
 builder.Services.AddTransient<AuthService>();
 
@@ -39,6 +62,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseAuthentication();
 
 app.MapAuthEndpoints();
 
