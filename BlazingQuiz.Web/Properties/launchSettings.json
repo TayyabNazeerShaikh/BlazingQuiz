@@ -28,7 +28,7 @@
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
-      "launchUrl": "auth/login"
+      "launchUrl": ""
     },
     "IIS Express": {
       "commandName": "IISExpress",

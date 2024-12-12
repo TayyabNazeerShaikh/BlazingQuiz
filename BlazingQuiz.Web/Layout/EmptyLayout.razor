@@ -1,3 +1,14 @@
 ﻿@inherits LayoutComponentBase
+@inject QuizAuthProvider QuizAuthProvider
 
 @Body
+
+@code {
+    protected override async Task OnInitializedAsync()
+    {
+        while (QuizAuthProvider.IsInitializing)
+        {
+            await Task.Delay(500);
+        }
+    }
+}

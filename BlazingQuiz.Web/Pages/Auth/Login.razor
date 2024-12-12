@@ -1,14 +1,18 @@
 ﻿@page "/auth/login"
+@using Microsoft.AspNetCore.Components.Authorization
+@using System.Security.Claims
 
 @layout EmptyLayout
 
 @inject NavigationManager NavigationManager
 
 @inject IAuthApi AuthApi
+@inject QuizAuthProvider QuizAuthProvider
 
 <div class="container d-flex justify-content-center align-items-center min-vh-100">
     <div class="col-md-4">
         <h2 class="text-center mb-4">Login | Blazing Quiz</h2>
+
         <EditForm Model="_model" OnValidSubmit="LoginAsync">
                 <DataAnnotationsValidator />
 
@@ -46,6 +50,14 @@
     private LoginDto _model = new();
     private bool _isbusy;
     private string? _error;
+    protected override void OnInitialized()
+    {
+        if (QuizAuthProvider.IsLoggedIn)
+        {
+            NavigationManager.NavigateTo("/", replace: true);
+        }
+    }
+
     private async Task LoginAsync()
     {
         _error = null;
@@ -60,6 +72,9 @@
                 _error = authResponse.ErrorMessage;
                 return;
             }
+            var loggedInUser = authResponse.User;
+            await QuizAuthProvider.SetLoginAsync(loggedInUser);
+
             NavigationManager.NavigateTo("/");
 
         }
