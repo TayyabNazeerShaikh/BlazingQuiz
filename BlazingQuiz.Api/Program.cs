@@ -43,7 +43,8 @@ builder.Services.AddAuthentication(options =>
             };
         });
 
-builder.Services.AddTransient<AuthService>();
+builder.Services.AddTransient<AuthService>()
+                .AddTransient<CategoryService>();
 
 builder.Services.AddCors(options => 
 {
@@ -81,7 +82,8 @@ app.UseCors();
 
 app.UseAuthentication();
 
-app.MapAuthEndpoints();
+app.MapAuthEndpoints()
+   .MapCategoryEndpoints();
 
 app.Run();
 
