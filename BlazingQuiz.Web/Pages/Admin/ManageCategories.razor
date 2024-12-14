@@ -1,0 +1,96 @@
+﻿@page "/admin/manage-categories"
+
+@inject ICategoryApi CategoryApi
+
+<div class="container">
+    <h1>Manage Categories</h1>
+    <hr />
+    <div class="row">
+        <div class="col-sm-6">
+            <EditForm Model="@_category" OnInvalidSubmit="SaveCategoryAsync">
+                <DataAnnotationsValidator/>
+                <div class="mb-3">
+                    <label class="form-label">
+                        Category Name
+                    </label>
+                    <InputText @bind-Value="_category.Name" class="form-control form-control-sm"></InputText>
+                    <ValidationMessage For="() => _category.Name"></ValidationMessage>
+                </div>
+                <div class="d-flex justify-content-between align-items-center">
+                    <button type="button" class="btn btn-sm btn-default">Cancel</button>
+                    <button type="submit" class="btn btn-sm btn-success">Save</button>
+                </div>
+            </EditForm>
+        </div>
+        <div class="col-sm-6">
+            <table class="table table-striped table-hover">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Id</th>
+                        <th>Name</th>
+                        <th>Edit</th>
+                    </tr>
+                </thead>
+                @if (_categories.Length == 0)
+                {
+                    <tr>
+                        <td colspan="4">
+                            <p class="text-danger h5">No categories found</p>
+                        </td>
+                    </tr>
+                }
+                else
+                {
+                    int number = 1;
+                    @foreach(var category in _categories)
+                    {
+                            <tr>
+                                <td>@(number++)</td>
+                                <td>@category.Id</td>
+                                <td>@category.Name</td>
+                                <td>
+                                <button type="button" class="btn btn-sm btn-primary" @onclick="() => onEditCategory(category)">Edit</button>
+                                </td>
+                            </tr>
+                    }
+                }
+            </table>
+        </div>
+    </div>
+</div>
+
+@code {
+    private CategoryDto[] _categories = [];
+    private CategoryDto _category = new();
+    private async Task LoadCategoriesAsync() =>
+        _categories = await CategoryApi.GetCategoriesAsync();
+
+    protected override async Task OnInitializedAsync() => await LoadCategoriesAsync();
+
+    private void onEditCategory(CategoryDto category)
+    {
+        _category = category;
+
+    }
+    private async Task SaveCategoryAsync()
+    {
+        try
+        {
+            var response = await CategoryApi.SaveCategoryAsync(_category);
+            if (!response.IsSuccess)
+            {
+                // Error alert or error message on UI
+                return;
+            }
+            // Reset the form 
+            // Reload the Catogories
+            _category = new();
+            await LoadCategoriesAsync();
+        }
+        catch(Exception e)
+        {
+            // Error alert or error message on UI
+        }
+    }
+}

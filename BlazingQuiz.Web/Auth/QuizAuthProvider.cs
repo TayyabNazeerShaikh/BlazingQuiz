@@ -44,7 +44,11 @@ public class QuizAuthProvider : AuthenticationStateProvider
             {
                 return;
             }
-            var user = LoggedInUser.LoadForm(udata);
+
+            // Add backslashes before double quotes
+            string escapedJson = udata.Replace("\"", "\\\"");
+
+            var user = LoggedInUser.LoadForm(escapedJson);
             if (user == null || user.Id == 0)
             {
                 return;

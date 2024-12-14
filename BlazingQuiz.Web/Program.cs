@@ -22,5 +22,22 @@ await builder.Build().RunAsync();
 static void ConfigureRefit(IServiceCollection services)
 {
     const string apiBaseUrl = "https://localhost:7012";
-    services.AddRefitClient<IAuthApi>().ConfigureHttpClient(httpClient => httpClient.BaseAddress = new Uri(apiBaseUrl));
+
+    services.AddRefitClient<IAuthApi>()
+        .ConfigureHttpClient(SetHttpClient);
+
+    services.AddRefitClient<ICategoryApi>(GetRefitSettings)
+        .ConfigureHttpClient(SetHttpClient);
+
+    static void SetHttpClient(HttpClient httpClient) => 
+        httpClient.BaseAddress = new Uri(apiBaseUrl);
+
+    static RefitSettings GetRefitSettings(IServiceProvider sp)
+    {
+        var authStateProvider = sp.GetRequiredService<QuizAuthProvider>();
+        return new RefitSettings
+        {
+            AuthorizationHeaderValueGetter = (_, __) => Task.FromResult(authStateProvider.User?.Token ?? "")
+        };
+    }
 }

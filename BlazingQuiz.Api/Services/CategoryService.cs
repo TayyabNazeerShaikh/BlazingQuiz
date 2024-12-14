@@ -22,7 +22,7 @@ public class CategoryService
         {
             return QuizApiResponse.Fail("Category with same name exists already.");
         }
-        if (dto.Id == 0)
+        if (dto.Id != 0)
         {
             var category = new Category
             {

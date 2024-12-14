@@ -49,7 +49,7 @@ public class AuthService
 
     private string GenerateJwtToken(User user)
     {
-        Claim[] claims = 
+        Claim[] claims =
         {
             new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
             new Claim(ClaimTypes.Name, user.Name),
@@ -61,7 +61,7 @@ public class AuthService
 
         var jwtSecurityToken = new JwtSecurityToken(
             issuer: _configuration.GetValue<string>("Jwt:Issuer"),
-            audience: _configuration.GetValue<string>("Jwt:Audience"), 
+            audience: _configuration.GetValue<string>("Jwt:Audience"),
             claims: claims,
             expires: DateTime.UtcNow.AddMinutes(_configuration.GetValue<int>("Jwt:ExpireInMinutes")),
             signingCredentials: signingCred);
